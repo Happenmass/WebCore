@@ -1,0 +1,238 @@
+:root {
+  color-scheme: light;
+  --bg: #0d1b1e;
+  --panel: #14282c;
+  --panel-strong: #1d353a;
+  --accent: #f4d06f;
+  --accent-strong: #f29f05;
+  --text: #f6f7f8;
+  --muted: #a6b6b9;
+  --line: rgba(244, 208, 111, 0.35);
+  --shadow: rgba(2, 8, 10, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at top, #1c3a40 0%, #0d1b1e 52%, #091316 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(244, 208, 111, 0.08),
+    rgba(244, 208, 111, 0.08) 1px,
+    transparent 1px,
+    transparent 24px
+  );
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+.page {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.5fr 0.5fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin: 0 0 8px;
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 700;
+}
+
+.sub {
+  margin: 0;
+  color: var(--muted);
+  max-width: 480px;
+}
+
+.status {
+  padding: 16px 18px;
+  background: rgba(20, 40, 44, 0.6);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 10px 24px var(--shadow);
+  font-family: "DM Mono", monospace;
+  font-size: 0.85rem;
+}
+
+.panel {
+  background: rgba(20, 40, 44, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 18px 34px var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  font-weight: 600;
+}
+
+input[type="file"] {
+  padding: 12px;
+  background: var(--panel-strong);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+button {
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+  color: #1a1a1a;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: linear-gradient(135deg, #6c5f4d, #8a7a65);
+}
+
+button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(244, 208, 111, 0.3);
+}
+
+.compare {
+  display: grid;
+  gap: 16px;
+}
+
+.compare-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0b1518;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.compare-frame canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.clip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  overflow: hidden;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 0 2px rgba(244, 208, 111, 0.2);
+  cursor: ew-resize;
+}
+
+.divider .handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--panel-strong);
+  border: 2px solid var(--accent);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+}
+
+.compare-labels {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.log {
+  margin-top: 18px;
+  background: rgba(6, 12, 14, 0.8);
+  border-radius: 12px;
+  padding: 16px;
+  color: var(--muted);
+  font-family: "DM Mono", monospace;
+  font-size: 0.85rem;
+  min-height: 84px;
+  white-space: pre-wrap;
+}
+
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    padding: 20px;
+  }
+}

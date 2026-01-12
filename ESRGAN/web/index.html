@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ESRGAN ONNX Web</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">ESRGAN x4 ONNXRuntime-Web</p>
+          <h1>Image Super-Resolution in the Browser</h1>
+          <p class="sub">
+            Upload a low-res image, run on-device ESRGAN, then compare with a
+            draggable split view.
+          </p>
+        </div>
+        <div class="status">
+          <span id="modelStatus">Model not loaded</span>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="field">
+          <label for="imageInput">Input image</label>
+          <input id="imageInput" type="file" accept="image/*" />
+          <p class="hint">Recommended &lt; 1600px for faster inference.</p>
+        </div>
+        <div class="actions">
+          <button id="loadModel">Load model</button>
+          <button id="runSr" disabled>Run ESRGAN</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="compare">
+          <div id="compareFrame" class="compare-frame">
+            <canvas id="srCanvas"></canvas>
+            <div id="origClip" class="clip">
+              <canvas id="origCanvas"></canvas>
+            </div>
+            <div id="divider" class="divider">
+              <div class="handle"></div>
+            </div>
+          </div>
+          <div class="compare-labels">
+            <span>Original</span>
+            <span>Super-Resolved</span>
+          </div>
+        </div>
+        <pre id="log" class="log"></pre>
+      </section>
+
+      <footer class="footer">
+        <p>Model file: ../weights/RealESRGAN_x2.onnx</p>
+      </footer>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

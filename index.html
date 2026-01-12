@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>webcore · 浏览器端侧 AI 工具集</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <!-- Top Nav -->
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <a class="brand" href="#">
+          <span class="brand__logo">webcore</span>
+        </a>
+
+        <nav class="nav">
+          <a class="nav__link" href="#docs">帮助文档</a>
+          <a class="nav__link" href="#about">关于我们</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <main class="hero">
+      <div class="container hero__inner">
+        <h1 class="hero__title">AI 工具集，一站式体验</h1>
+        <p class="hero__subtitle">图像放大 · TTS · ASR · 一切尽量在浏览器端侧运行</p>
+
+        <!-- Tabs (CSS only) -->
+        <section class="tabs" aria-label="webcore tools">
+          <!-- Radio controllers -->
+          <input class="tabs__radio" type="radio" name="tab" id="tab-sr" checked />
+          <input class="tabs__radio" type="radio" name="tab" id="tab-tts" />
+          <input class="tabs__radio" type="radio" name="tab" id="tab-asr" />
+
+          <!-- Tab headers -->
+          <div class="tabs__header" role="tablist" aria-label="Tools">
+            <label class="tabs__tab" for="tab-sr" role="tab" aria-controls="panel-sr">
+              <span class="tab__icon">🖼️</span>
+              <span class="tab__text">图像放大</span>
+            </label>
+
+            <label class="tabs__tab" for="tab-tts" role="tab" aria-controls="panel-tts">
+              <span class="tab__icon">🔊</span>
+              <span class="tab__text">语音合成（TTS）</span>
+            </label>
+
+            <label class="tabs__tab" for="tab-asr" role="tab" aria-controls="panel-asr">
+              <span class="tab__icon">🎙️</span>
+              <span class="tab__text">语音识别（ASR）</span>
+            </label>
+          </div>
+
+          <!-- Tab panels -->
+          <div class="tabs__body">
+            <!-- Panel: SR -->
+            <section class="panel" id="panel-sr" role="tabpanel" aria-label="Image Super Resolution">
+              <div class="card">
+                <div class="card__grid card__grid--center">
+                  <!-- Upload -->
+                  <div class="upload">
+                    <div class="upload__box">
+                      <div class="upload__icon">⬆️</div>
+                      <div class="upload__title">上传图片</div>
+                      <div class="upload__desc">拖拽到这里，或点击选择文件</div>
+
+                      <label class="btn btn--primary" for="sr-file">选择文件</label>
+                      <input id="sr-file" class="sr-only" type="file" accept="image/*" />
+                      <div class="upload__hint">支持 JPG / PNG / WEBP</div>
+                    </div>
+
+                    <div class="options">
+                      <button class="btn btn--solid" id="sr-run">开始放大</button>
+                      <div class="status-line" id="sr-status">模型未加载</div>
+                      <div class="progress" id="sr-model-progress" aria-hidden="true">
+                        <div class="progress__bar" id="sr-model-progress-bar"></div>
+                      </div>
+                      <div class="progress" id="sr-progress" aria-hidden="true">
+                        <div class="progress__bar" id="sr-progress-bar"></div>
+                      </div>
+                      <div class="muted">提示：默认放大 4 倍，使用固定模型。</div>
+                    </div>
+                  </div>
+
+                  <!-- Preview -->
+                  <div class="preview">
+                    <div class="preview__head">
+                      <div class="chip">原始图像</div>
+                      <div class="chip chip--ghost">放大结果</div>
+                    </div>
+
+                    <div class="compare compare--overlay" id="sr-compare">
+                      <div class="compare-frame" id="sr-frame">
+                        <canvas id="sr-out-canvas"></canvas>
+                        <div id="sr-orig-clip" class="compare-clip">
+                          <canvas id="sr-orig-canvas"></canvas>
+                        </div>
+                        <div id="sr-divider" class="compare-divider" aria-hidden="true">
+                          <div class="compare-handle"></div>
+                        </div>
+                      </div>
+                      <div class="compare-labels">
+                        <span>原图</span>
+                        <span>放大结果</span>
+                      </div>
+
+                      <button class="btn btn--primary compare__download" id="sr-download" disabled>
+                        下载结果
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="features">
+                <div class="feature">
+                  <div class="feature__icon">⚡</div>
+                  <div class="feature__title">快速上手</div>
+                  <div class="feature__desc">上传即用，低学习成本</div>
+                </div>
+                <div class="feature">
+                  <div class="feature__icon">🧠</div>
+                  <div class="feature__title">端侧推理</div>
+                  <div class="feature__desc">尽量本地完成，减少依赖</div>
+                </div>
+                <div class="feature">
+                  <div class="feature__icon">🔒</div>
+                  <div class="feature__title">数据隐私</div>
+                  <div class="feature__desc">可做到不上传媒体文件</div>
+                </div>
+                <div class="feature">
+                  <div class="feature__icon">🧩</div>
+                  <div class="feature__title">可扩展</div>
+                  <div class="feature__desc">未来持续增加更多工具</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Panel: TTS -->
+            <section class="panel" id="panel-tts" role="tabpanel" aria-label="Text To Speech">
+              <div class="card">
+                <div class="card__grid card__grid--2">
+                  <div class="stack">
+                    <div class="field">
+                      <div class="field__label">输入文本</div>
+                      <textarea class="textarea" id="tts-text" rows="9" placeholder="请输入要合成的文本…"></textarea>
+                    </div>
+
+                    <div class="options">
+                      <div class="options__row">
+                        <div class="field">
+                          <div class="field__label">性别</div>
+                          <select class="select" id="tts-gender"></select>
+                        </div>
+
+                        <div class="field">
+                          <div class="field__label">音色</div>
+                          <select class="select" id="tts-voice"></select>
+                        </div>
+                      </div>
+
+                      <button class="btn btn--solid" id="tts-run">开始合成</button>
+                      <div class="status-line" id="tts-status">模型未加载</div>
+                      <div class="progress" id="tts-model-progress" aria-hidden="true">
+                        <div class="progress__bar" id="tts-model-progress-bar"></div>
+                      </div>
+                      <div class="muted">提示：首次加载较慢，请耐心等待。</div>
+                    </div>
+                  </div>
+
+                  <div class="stack">
+                    <div class="panelbox">
+                      <div class="panelbox__title">音频输出</div>
+                      <div class="panelbox__body">
+                        <audio id="tts-audio" class="audio-player" controls></audio>
+                        <!-- <div class="audio-ph">
+                          <div class="audio-ph__bar"></div>
+                          <div class="audio-ph__bar"></div>
+                          <div class="audio-ph__bar"></div>
+                          <div class="audio-ph__bar"></div>
+                          <div class="audio-ph__bar"></div>
+                        </div> -->
+
+                        <div class="row">
+                          <button class="btn btn--primary" id="tts-play" disabled>播放</button>
+                          <button class="btn btn--ghost" id="tts-download" disabled>下载 WAV</button>
+                          <button class="btn btn--ghost" id="tts-copy" disabled>复制 Base64</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="features features--mini">
+                <div class="feature">
+                  <div class="feature__icon">🗣️</div>
+                  <div class="feature__title">多说话人</div>
+                  <div class="feature__desc">统一用 Voice Profile 管理</div>
+                </div>
+                <div class="feature">
+                  <div class="feature__icon">📦</div>
+                  <div class="feature__title">离线包</div>
+                  <div class="feature__desc">模型可按需下载与缓存</div>
+                </div>
+                <div class="feature">
+                  <div class="feature__icon">🎛️</div>
+                  <div class="feature__title">可控参数</div>
+                  <div class="feature__desc">语速、音高、情感等</div>
+                </div>
+              </div> -->
+            </section>
+
+            <!-- Panel: ASR -->
+            <section class="panel" id="panel-asr" role="tabpanel" aria-label="Automatic Speech Recognition">
+              <div class="card">
+                <div class="card__grid card__grid--2">
+                  <div class="stack">
+                    <div class="upload__box upload__box--flat">
+                      <div class="upload__icon">🎙️</div>
+                      <div class="upload__title">上传音频 / 录音</div>
+                      <div class="upload__desc">支持 wav / mp3 / m4a（取决于浏览器解码能力）</div>
+
+                      <div class="row">
+                        <label class="btn btn--primary" for="asr-file">上传音频</label>
+                        <input id="asr-file" class="sr-only" type="file" accept="audio/*" />
+                        <button class="btn btn--ghost asr-record" id="asr-record" type="button">
+                          <span class="asr-icon asr-icon--play" aria-hidden="true"></span>
+                          开始录音
+                        </button>
+                        <button class="btn btn--ghost asr-stop" id="asr-stop" type="button" disabled>
+                          <span class="asr-icon asr-icon--stop" aria-hidden="true"></span>
+                          停止
+                        </button>
+                      </div>
+
+                      <div class="options options--tight">
+                        <button class="btn btn--solid" id="asr-run" disabled>开始识别</button>
+                        <div class="status-line" id="asr-status">模型未加载</div>
+                        <div class="progress" id="asr-model-progress" aria-hidden="true">
+                          <div class="progress__bar" id="asr-model-progress-bar"></div>
+                        </div>
+                        <div class="muted">提示：首次加载较慢，请耐心等待。</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="stack">
+                    <div class="panelbox">
+                      <div class="panelbox__title">识别结果</div>
+                      <div class="panelbox__body">
+                        <div class="result" id="asr-result">识别文本将在这里显示…</div>
+                        <div class="row">
+                          <button class="btn btn--primary" id="asr-copy" disabled>复制文本</button>
+                          <button class="btn btn--ghost" id="asr-download" disabled>导出 .txt</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- <div class="panelbox panelbox--light">
+                      <div class="panelbox__title">时间轴（占位）</div>
+                      <div class="panelbox__body">
+                        <div class="timeline">
+                          <div class="seg"><span>00:00</span><em>…</em></div>
+                          <div class="seg"><span>00:05</span><em>…</em></div>
+                          <div class="seg"><span>00:10</span><em>…</em></div>
+                        </div>
+                        <div class="muted">后续可替换为 word-level timestamps。</div>
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="features features--mini">
+                <div class="feature">
+                  <div class="feature__icon">📡</div>
+                  <div class="feature__title">流式</div>
+                  <div class="feature__desc">边说边出字，低延迟</div>
+                </div>
+                <div class="feature">
+                  <div class="feature__icon">🧾</div>
+                  <div class="feature__title">对齐</div>
+                  <div class="feature__desc">SRT/字幕导出更方便</div>
+                </div>
+                <div class="feature">
+                  <div class="feature__icon">🧪</div>
+                  <div class="feature__title">可测</div>
+                  <div class="feature__desc">统一性能面板与日志</div>
+                </div>
+              </div> -->
+            </section>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer" id="about">
+          <div class="footer__line"></div>
+          <div class="footer__inner">
+            <div class="footer__left">© 2026 webcore · All Rights Reserved</div>
+            <div class="footer__right">
+              <!-- <a class="footer__link" id="docs" href="#docs">隐私政策</a>
+              <span class="dot">·</span>
+              <a class="footer__link" href="#terms">用户协议</a> -->
+            </div>
+          </div>
+        </footer>
+      </div>
+    </main>
+    <script src="./sr.js"></script>
+    <script src="./tts.js"></script>
+    <script src="./asr.js"></script>
+  </body>
+</html>

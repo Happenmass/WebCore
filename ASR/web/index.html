@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Paraformer ONNX Web</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Paraformer ASR ONNXRuntime-Web</p>
+          <h1>Offline WAV Recognition in the Browser</h1>
+          <p class="sub">
+            Load a WAV file, extract log-mel + LFR features, and run Paraformer
+            on-device.
+          </p>
+        </div>
+        <div class="status">
+          <span id="modelStatus">Model not loaded</span>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="field">
+          <label for="audioInput">Input audio</label>
+          <input id="audioInput" type="file" accept="audio/*" />
+          <p class="hint">Supports WAV/MP3. 16k mono recommended for best results.</p>
+        </div>
+        <div class="actions">
+          <button id="loadModel">Load model</button>
+          <button id="runAsr" disabled>Run ASR</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="result">
+          <h2>Transcript</h2>
+          <pre id="resultText" class="result-text"></pre>
+        </div>
+        <pre id="log" class="log"></pre>
+      </section>
+
+      <footer class="footer">
+        <p>Model file: ../iic/speech_paraformer-large-vad-punc_asr_nat-zh-cn-16k-common-vocab8404-onnx/model_quant.onnx</p>
+      </footer>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

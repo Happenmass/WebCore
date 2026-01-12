@@ -1,0 +1,242 @@
+{
+  "男": [
+    {
+      "description": "阳光清爽",
+      "voice": "zm_009"
+    },
+    {
+      "description": "沉稳浑厚磁性",
+      "voice": "zm_010"
+    },
+    {
+      "description": "成熟稳重磁性",
+      "voice": "zm_011"
+    },
+    {
+      "description": "磁性沉稳青年",
+      "voice": "zm_012"
+    },
+    {
+      "description": "沉稳磁性青年",
+      "voice": "zm_013"
+    },
+    {
+      "description": "低沉浑厚磁性",
+      "voice": "zm_015"
+    },
+    {
+      "description": "成熟浑厚中年",
+      "voice": "zm_020"
+    },
+    {
+      "description": "成熟浑厚磁性",
+      "voice": "zm_030"
+    },
+    {
+      "description": "成熟沉稳磁性",
+      "voice": "zm_055"
+    },
+    {
+      "description": "成熟稳重浑厚",
+      "voice": "zm_034"
+    },
+    {
+      "description": "低沉有磁性",
+      "voice": "zm_041"
+    },
+    {
+      "description": "阳光青年音",
+      "voice": "zm_045"
+    },
+    {
+      "description": "清朗沉稳青年",
+      "voice": "zm_053"
+    },
+    {
+      "description": "阳光爽朗青年",
+      "voice": "zm_054"
+    },
+    {
+      "description": "清澈青年音",
+      "voice": "zm_057"
+    },
+    {
+      "description": "清亮沉稳音色",
+      "voice": "zm_058"
+    },
+    {
+      "description": "清朗阳光青年",
+      "voice": "zm_065"
+    },
+    {
+      "description": "清亮青年音",
+      "voice": "zm_066"
+    },
+    {
+      "description": "阳光清亮青年",
+      "voice": "zm_082"
+    },
+    {
+      "description": "阳光活力青年",
+      "voice": "zm_091"
+    },
+    {
+      "description": "清晰沉稳知性",
+      "voice": "zm_095"
+    }
+  ],
+  "女": [
+    {
+      "description": "青春明亮自然",
+      "voice": "af_maple"
+    },
+    {
+      "description": "清脆明亮音色",
+      "voice": "af_sol"
+    },
+    {
+      "description": "青春甜美自然",
+      "voice": "bf_vale"
+    },
+    {
+      "description": "甜美清晰自然",
+      "voice": "zf_001"
+    },
+    {
+      "description": "清脆甜美自然",
+      "voice": "zf_002"
+    },
+    {
+      "description": "清亮甜美音色",
+      "voice": "zf_038"
+    },
+    {
+      "description": "知性清亮音色",
+      "voice": "zf_004"
+    },
+    {
+      "description": "知性成熟音色",
+      "voice": "zf_005"
+    },
+    {
+      "description": "成熟知性沉稳",
+      "voice": "zf_007"
+    },
+    {
+      "description": "知性成熟沉稳",
+      "voice": "zf_008"
+    },
+    {
+      "description": "青春甜美活泼",
+      "voice": "zf_017"
+    },
+    {
+      "description": "成熟知性音色",
+      "voice": "zf_019"
+    },
+    {
+      "description": "清脆甜美音",
+      "voice": "zf_021"
+    },
+    {
+      "description": "知性温柔成熟",
+      "voice": "zf_027"
+    },
+    {
+      "description": "知性成熟干练",
+      "voice": "zf_028"
+    },
+    {
+      "description": "成熟稳重中年",
+      "voice": "zf_040"
+    },
+    {
+      "description": "稚嫩清脆童声",
+      "voice": "zf_042"
+    },
+    {
+      "description": "清脆甜美稚嫩",
+      "voice": "zf_043"
+    },
+    {
+      "description": "知性温婉青年",
+      "voice": "zf_047"
+    },
+    {
+      "description": "成熟知性中音",
+      "voice": "zf_051"
+    },
+    {
+      "description": "知性清亮青年",
+      "voice": "zf_059"
+    },
+    {
+      "description": "知性明亮青年",
+      "voice": "zf_071"
+    },
+    {
+      "description": "清脆明亮青年",
+      "voice": "zf_070"
+    },
+    {
+      "description": "青春活泼明亮",
+      "voice": "zf_072"
+    },
+    {
+      "description": "清脆明亮活力",
+      "voice": "zf_073"
+    },
+    {
+      "description": "清亮青年音",
+      "voice": "zf_075"
+    },
+    {
+      "description": "青春明亮清脆",
+      "voice": "zf_076"
+    },
+    {
+      "description": "知性沉稳音",
+      "voice": "zf_078"
+    },
+    {
+      "description": "活力清脆青年",
+      "voice": "zf_084"
+    },
+    {
+      "description": "清亮知性青年",
+      "voice": "zf_085"
+    },
+    {
+      "description": "清脆知性青年",
+      "voice": "zf_086"
+    },
+    {
+      "description": "青春清亮音色",
+      "voice": "zf_087"
+    },
+    {
+      "description": "清亮年轻音色",
+      "voice": "zf_088"
+    },
+    {
+      "description": "清脆稚嫩童声",
+      "voice": "zf_090"
+    },
+    {
+      "description": "青春清脆甜美",
+      "voice": "zf_092"
+    },
+    {
+      "description": "稚嫩可爱童声",
+      "voice": "zf_093"
+    },
+    {
+      "description": "成熟沉稳磁性",
+      "voice": "zf_099"
+    },
+    {
+      "description": "清亮甜美自然",
+      "voice": "zm_089"
+    }
+  ]
+}

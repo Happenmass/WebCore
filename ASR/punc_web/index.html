@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FunASR Punctuation Web</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">FunASR Punctuation ONNXRuntime-Web</p>
+          <h1>Chinese-English Punctuation Restoration</h1>
+          <p class="sub">
+            Paste ASR text and restore punctuation using an INT8 ONNX model
+            directly in the browser.
+          </p>
+        </div>
+        <div class="status">
+          <span id="modelStatus">Model not loaded</span>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="field">
+          <label for="textInput">Input text</label>
+          <textarea id="textInput" rows="6" placeholder="Paste text here..."></textarea>
+          <p class="hint">Mixed Chinese/English text supported.</p>
+        </div>
+        <div class="actions">
+          <button id="loadModel">Load model</button>
+          <button id="runPunc" disabled>Restore punctuation</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="result">
+          <h2>Output</h2>
+          <pre id="resultText" class="result-text"></pre>
+        </div>
+        <pre id="log" class="log"></pre>
+      </section>
+
+      <footer class="footer">
+        <p>Model file: ../manyeyes/alicttransformerpunc-zh-en-mge-int8-onnx/model.int8.onnx</p>
+      </footer>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
