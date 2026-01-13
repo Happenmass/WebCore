@@ -102,6 +102,7 @@
   .nav {
     display: flex;
     gap: 18px;
+    align-items: center;
   }
   
   .nav__link {
@@ -115,6 +116,11 @@
   
   .nav__link:hover {
     background: rgba(43, 108, 255, 0.08);
+  }
+
+  .nav__lang {
+    padding: 8px 12px;
+    font-size: 13px;
   }
   
   /* ========== Hero ========== */

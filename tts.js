@@ -1,9 +1,22 @@
 (() => {
+const APP_VERSION = typeof window !== "undefined" && window.APP_VERSION ? window.APP_VERSION : "";
+
+function withVersion(url) {
+  if (!APP_VERSION) return url;
+  const suffix = `v=${encodeURIComponent(APP_VERSION)}`;
+  return url.includes("?") ? `${url}&${suffix}` : `${url}?${suffix}`;
+}
+
+function getVoiceCacheKey(voiceId) {
+  if (!APP_VERSION) return voiceId;
+  return `${voiceId}?v=${APP_VERSION}`;
+}
+
 const TTS_MODEL_BASE = `https://static.webcore.xin`;
-const TTS_MODEL_URL = `${TTS_MODEL_BASE}/kokoro/kokoro_fp32.onnx`;
+const TTS_MODEL_URL = withVersion(`${TTS_MODEL_BASE}/kokoro/kokoro_fp32.onnx`);
 const TTS_VOICE_BASE_URL = `${TTS_MODEL_BASE}/voices`;
-const TTS_VOICE_SUMMARY_URL = "./voice_summary.json";
-const TTS_CONFIG_URL = "./config.json";
+const TTS_VOICE_SUMMARY_URL = withVersion("./voice_summary.json");
+const TTS_CONFIG_URL = withVersion("./config.json");
 const TTS_PHONEMIZE_URL = "https://cdn.jsdelivr.net/npm/phonemize@1.1.0/dist/index.mjs";
 const TTS_G2P_REMOTE_URL = "https://www.webcore.xin/g2p";
 const TTS_SAMPLE_RATE = 24000;
@@ -27,6 +40,9 @@ const ttsState = {
   ortLoading: null,
   pinyinLoading: null,
 };
+
+const i18n = window.I18N;
+const t = (key, fallback) => (i18n ? i18n.t(key, fallback) : fallback || key);
 
 const ttsEls = {
   text: document.getElementById("tts-text"),
@@ -150,9 +166,12 @@ const ZH_MAP = {
   " ": " ",
 };
 
-function setStatus(message) {
+function setStatus(message, key) {
   if (ttsEls.status) {
     ttsEls.status.textContent = message;
+    if (key) {
+      ttsEls.status.dataset.statusKey = key;
+    }
   }
 }
 
@@ -352,13 +371,14 @@ async function loadVoice(voiceId) {
     ttsState.voicePack = ttsState.voices[voiceId];
     return;
   }
-  const cached = await readVoiceFromCache(voiceId);
+  const cacheKey = getVoiceCacheKey(voiceId);
+  const cached = await readVoiceFromCache(cacheKey);
   if (cached) {
     ttsState.voices[voiceId] = cached;
     ttsState.voicePack = cached;
     return;
   }
-  const url = `${TTS_VOICE_BASE_URL}/${voiceId}.json`;
+  const url = withVersion(`${TTS_VOICE_BASE_URL}/${voiceId}.json`);
   const response = await fetch(url, { mode: "cors" });
   if (!response.ok) {
     throw new Error(`Failed to fetch voice ${voiceId}`);
@@ -366,7 +386,7 @@ async function loadVoice(voiceId) {
   const data = await response.json();
   ttsState.voices[voiceId] = data;
   ttsState.voicePack = data;
-  await writeVoiceToCache(voiceId, data);
+  await writeVoiceToCache(cacheKey, data);
 }
 
 async function initVoices() {
@@ -623,7 +643,10 @@ function setAudioSource(samples) {
 
 async function ensureSession() {
   if (ttsState.session) return;
-  setStatus("模型加载中...");
+  setStatus(
+    t("tts_status_model_loading", "模型加载中..."),
+    "tts_status_model_loading"
+  );
   setModelProgress(0);
   await ensureOrtLoaded();
   ort.env.wasm.wasmPaths =
@@ -639,7 +662,7 @@ async function ensureSession() {
   ttsState.session = await ort.InferenceSession.create(modelData, {
     executionProviders: ["wasm"],
   });
-  setStatus("模型已加载");
+  setStatus(t("tts_status_model_loaded", "模型已加载"), "tts_status_model_loaded");
   setModelProgress(1);
 }
 
@@ -647,13 +670,13 @@ async function synthesize() {
   if (!ttsEls.text) return;
   const raw = normalizePhonemes(ttsEls.text.value);
   if (!raw) {
-    setStatus("请输入文本");
+    setStatus(t("tts_status_need_text", "请输入文本"), "tts_status_need_text");
     return;
   }
   if (ttsEls.run) ttsEls.run.disabled = true;
   setButtonsEnabled(false);
   try {
-    setStatus("准备中...");
+    setStatus(t("tts_status_preparing", "准备中..."), "tts_status_preparing");
     if (window.__ortOwner !== TTS_ORG) {
       resetOrt("switch to tts");
       window.__ortOwner = TTS_ORG;
@@ -665,7 +688,7 @@ async function synthesize() {
       text = await textToPhonemes(raw);
     }
     if (!text) {
-      setStatus("G2P 失败");
+      setStatus(t("tts_status_g2p_failed", "G2P 失败"), "tts_status_g2p_failed");
       return;
     }
     await ensureSession();
@@ -677,7 +700,10 @@ async function synthesize() {
     const refS = normalizeRefS(selectRefS(text.length));
     const speed = 1.0;
 
-    setStatus("合成中...");
+    setStatus(
+      t("tts_status_synthesizing", "合成中..."),
+      "tts_status_synthesizing"
+    );
     const feeds = {
       input_ids: toOrtTensorInt64(inputIds, [1, inputIds.length]),
       ref_s: toOrtTensorFloat(refS, [1, refS.length]),
@@ -692,10 +718,10 @@ async function synthesize() {
     ttsState.audioBuffer = Float32Array.from(waveform);
     setAudioSource(ttsState.audioBuffer);
     setButtonsEnabled(true);
-    setStatus("合成成功");
+    setStatus(t("tts_status_success", "合成成功"), "tts_status_success");
   } catch (err) {
     console.error(err);
-    setStatus("合成失败");
+    setStatus(t("tts_status_failed", "合成失败"), "tts_status_failed");
   } finally {
     if (ttsEls.run) ttsEls.run.disabled = false;
   }
@@ -739,8 +765,8 @@ function copyBase64() {
     const result = String(reader.result || "");
     const base64 = result.split(",")[1] || "";
     navigator.clipboard.writeText(base64).then(
-      () => setStatus("Base64 已复制"),
-      () => setStatus("复制失败")
+      () => setStatus(t("tts_status_copy_success", "Base64 已复制"), "tts_status_copy_success"),
+      () => setStatus(t("tts_status_copy_failed", "复制失败"), "tts_status_copy_failed")
     );
   };
   reader.readAsDataURL(blob);
@@ -785,6 +811,9 @@ setButtonsEnabled(false);
 setModelProgress(0);
 initVoices().catch((err) => {
   console.error(err);
-  setStatus("音色列表加载失败");
+  setStatus(
+    t("tts_status_voice_list_failed", "音色列表加载失败"),
+    "tts_status_voice_list_failed"
+  );
 });
 })();

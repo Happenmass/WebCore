@@ -25,6 +25,9 @@ const state = {
 const SR_DEBUG = true;
 const SR_ORG = "sr";
 
+const i18n = window.I18N;
+const t = (key, fallback) => (i18n ? i18n.t(key, fallback) : fallback || key);
+
 function debugLog(...args) {
   if (SR_DEBUG) {
     console.log("[SR]", ...args);
@@ -57,9 +60,12 @@ const els = {
   download: document.getElementById("sr-download"),
 };
 
-function setStatus(message) {
+function setStatus(message, key) {
   if (els.status) {
     els.status.textContent = message;
+    if (key) {
+      els.status.dataset.statusKey = key;
+    }
   }
 }
 
@@ -559,7 +565,10 @@ async function fetchModelWithProgress(url) {
 
 async function loadModelIfNeeded() {
   if (state.session) return;
-  setStatus("模型加载中...");
+  setStatus(
+    t("sr_status_model_loading", "模型加载中..."),
+    "sr_status_model_loading"
+  );
   setModelProgress(0);
   debugLog("navigator.gpu", !!navigator.gpu, navigator.gpu);
   debugLog("secure context", window.isSecureContext, location.origin);
@@ -594,7 +603,10 @@ async function loadModelIfNeeded() {
   try {
     let modelData = await readModelFromCache(MODEL_URL);
     if (!modelData) {
-      setStatus("模型下载中...");
+      setStatus(
+        t("sr_status_model_downloading", "模型下载中..."),
+        "sr_status_model_downloading"
+      );
       modelData = await fetchModelWithProgress(MODEL_URL);
       await writeModelToCache(MODEL_URL, modelData);
     }
@@ -605,7 +617,7 @@ async function loadModelIfNeeded() {
     state.sessionProvider = state.session.executionProviders?.[0] || state.ortBuild || "wasm";
     debugLog("session created", state.sessionProvider, state.session.executionProviders);
     state.runBatchSize = state.sessionProvider.startsWith("wasm") ? 1 : BATCH_SIZE;
-    setStatus("模型加载成功");
+    setStatus(t("sr_status_model_loaded", "模型加载成功"), "sr_status_model_loaded");
   } catch (err) {
     debugLog("webgpu session error", err);
     const message = String(err?.message || err);
@@ -617,7 +629,10 @@ async function loadModelIfNeeded() {
     }
     let modelData = await readModelFromCache(MODEL_URL);
     if (!modelData) {
-      setStatus("模型下载中...");
+      setStatus(
+        t("sr_status_model_downloading", "模型下载中..."),
+        "sr_status_model_downloading"
+      );
       modelData = await fetchModelWithProgress(MODEL_URL);
       await writeModelToCache(MODEL_URL, modelData);
     }
@@ -628,7 +643,7 @@ async function loadModelIfNeeded() {
     state.sessionProvider = "wasm";
     debugLog("session created fallback", state.sessionProvider);
     state.runBatchSize = 1;
-    setStatus("模型加载成功");
+    setStatus(t("sr_status_model_loaded", "模型加载成功"), "sr_status_model_loaded");
   }
   setModelProgress(1);
 }
@@ -636,7 +651,7 @@ async function loadModelIfNeeded() {
 async function runSuperResolution() {
   if (state.running) return;
   if (!state.image) {
-    setStatus("请先选择图片");
+    setStatus(t("sr_status_need_image", "请先选择图片"), "sr_status_need_image");
     return;
   }
   state.running = true;
@@ -649,7 +664,7 @@ async function runSuperResolution() {
       window.__ortOwner = SR_ORG;
     }
     await loadModelIfNeeded();
-    setStatus("推理中...");
+    setStatus(t("sr_status_running", "推理中..."), "sr_status_running");
     setProgress(0);
     const image = state.image;
     const padded = padReflect(image.data, image.width, image.height, PAD_SIZE);
@@ -675,11 +690,11 @@ async function runSuperResolution() {
       els.download.disabled = false;
     }
     setProgress(1);
-    setStatus("推理成功");
+    setStatus(t("sr_status_success", "推理成功"), "sr_status_success");
   } catch (err) {
     console.error(err);
     setProgress(0);
-    setStatus("推理失败");
+    setStatus(t("sr_status_failed", "推理失败"), "sr_status_failed");
   } finally {
     state.running = false;
     if (els.runBtn) {
@@ -769,7 +784,10 @@ if (els.fileInput) {
     if (!file) return;
     handleImageUpload(file).catch((err) => {
       console.error(err);
-      setStatus("图片读取失败");
+      setStatus(
+        t("sr_status_image_failed", "图片读取失败"),
+        "sr_status_image_failed"
+      );
     });
   });
 }

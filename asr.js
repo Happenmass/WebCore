@@ -40,6 +40,9 @@ const state = {
   recordStream: null,
 };
 
+const i18n = window.I18N;
+const t = (key, fallback) => (i18n ? i18n.t(key, fallback) : fallback || key);
+
 const els = {
   fileInput: document.getElementById("asr-file"),
   recordBtn: document.getElementById("asr-record"),
@@ -53,9 +56,12 @@ const els = {
   modelProgressBar: document.getElementById("asr-model-progress-bar"),
 };
 
-function setStatus(message) {
+function setStatus(message, key) {
   if (els.status) {
     els.status.textContent = message;
+    if (key) {
+      els.status.dataset.statusKey = key;
+    }
   }
 }
 
@@ -75,7 +81,13 @@ function setModelProgress(value) {
 
 function setResult(text) {
   if (!els.result) return;
-  els.result.textContent = text || "识别文本将在这里显示…";
+  if (!text) {
+    els.result.textContent = t("asr_result_placeholder", "识别文本将在这里显示…");
+    els.result.dataset.empty = "true";
+    return;
+  }
+  els.result.textContent = text;
+  els.result.dataset.empty = "false";
 }
 
 function setResultActions(enabled) {
@@ -267,7 +279,10 @@ async function loadModel() {
     await state.modelLoading;
     return;
   }
-  setStatus("模型加载中...");
+  setStatus(
+    t("asr_status_model_loading", "模型加载中..."),
+    "asr_status_model_loading"
+  );
   setModelProgress(0);
   state.modelLoading = (async () => {
     await ensureOrtLoaded();
@@ -309,7 +324,7 @@ async function loadModel() {
       })(),
     ]);
     setModelProgress(1);
-    setStatus("模型已加载");
+    setStatus(t("asr_status_model_loaded", "模型已加载"), "asr_status_model_loaded");
     if (els.runBtn) {
       els.runBtn.disabled = !state.audioData;
     }
@@ -367,12 +382,19 @@ async function decodeAudioData(arrayBuffer) {
 }
 
 async function handleAudioBuffer(arrayBuffer, label) {
-  setStatus("音频解析中...");
+  setStatus(
+    t("asr_status_audio_parsing", "音频解析中..."),
+    "asr_status_audio_parsing"
+  );
   try {
     const decoded = await decodeAudioData(arrayBuffer);
     state.audioData = decoded.samples;
     state.audioInfo = decoded;
-    setStatus(state.session ? "准备就绪" : "音频已加载");
+    if (state.session) {
+      setStatus(t("asr_status_ready", "准备就绪"), "asr_status_ready");
+    } else {
+      setStatus(t("asr_status_audio_loaded", "音频已加载"), "asr_status_audio_loaded");
+    }
     if (els.runBtn) {
       els.runBtn.disabled = false;
     }
@@ -381,7 +403,7 @@ async function handleAudioBuffer(arrayBuffer, label) {
     console.log("[ASR] audio loaded", label, decoded.duration);
   } catch (err) {
     console.error(err);
-    setStatus("音频解析失败");
+    setStatus(t("asr_status_audio_failed", "音频解析失败"), "asr_status_audio_failed");
   }
 }
 
@@ -705,13 +727,13 @@ async function restorePunctuation(text) {
 
 async function runAsr() {
   if (!state.audioData) {
-    setStatus("请先上传音频或录音");
+    setStatus(t("asr_status_need_audio", "请先上传音频或录音"), "asr_status_need_audio");
     return;
   }
   if (els.runBtn) {
     els.runBtn.disabled = true;
   }
-  setStatus("识别中...");
+  setStatus(t("asr_status_recognizing", "识别中..."), "asr_status_recognizing");
   try {
     if (window.__ortOwner !== ASR_ORG) {
       resetOrt("switch to asr");
@@ -727,7 +749,7 @@ async function runAsr() {
       state.pendingRun = false;
     }
     if (!state.session) {
-      setStatus("模型加载失败");
+      setStatus(t("asr_status_model_failed", "模型加载失败"), "asr_status_model_failed");
       return;
     }
     const chunkSamples = Math.floor(
@@ -774,10 +796,10 @@ async function runAsr() {
 
     setResult(combined);
     setResultActions(Boolean(combined));
-    setStatus("识别完成");
+    setStatus(t("asr_status_done", "识别完成"), "asr_status_done");
   } catch (err) {
     console.error(err);
-    setStatus("识别失败");
+    setStatus(t("asr_status_failed", "识别失败"), "asr_status_failed");
   } finally {
     if (els.runBtn) {
       els.runBtn.disabled = false;
@@ -802,7 +824,7 @@ function pickMimeType() {
 async function startRecording() {
   if (state.recording) return;
   if (!navigator.mediaDevices?.getUserMedia) {
-    setStatus("浏览器不支持录音");
+    setStatus(t("asr_status_no_record", "浏览器不支持录音"), "asr_status_no_record");
     return;
   }
   try {
@@ -833,36 +855,39 @@ async function startRecording() {
     };
     recorder.start();
     state.recording = true;
-    setStatus("录音中...");
+    setStatus(t("asr_status_recording", "录音中..."), "asr_status_recording");
     if (els.recordBtn) els.recordBtn.disabled = true;
     if (els.stopBtn) els.stopBtn.disabled = false;
     setRecordingUI(true);
   } catch (err) {
     console.error(err);
-    setStatus("录音失败");
+    setStatus(t("asr_status_record_failed", "录音失败"), "asr_status_record_failed");
   }
 }
 
 function stopRecording() {
   if (!state.recording || !state.mediaRecorder) return;
   state.mediaRecorder.stop();
-  setStatus("录音已停止，解析中...");
+  setStatus(
+    t("asr_status_record_stopped", "录音已停止，解析中..."),
+    "asr_status_record_stopped"
+  );
 }
 
 function copyResult() {
   if (!els.result) return;
   const text = els.result.textContent.trim();
-  if (!text || text === "识别文本将在这里显示…") return;
+  if (!text || els.result.dataset.empty === "true") return;
   navigator.clipboard.writeText(text).then(
-    () => setStatus("已复制"),
-    () => setStatus("复制失败")
+    () => setStatus(t("asr_status_copied", "已复制"), "asr_status_copied"),
+    () => setStatus(t("asr_status_copy_failed", "复制失败"), "asr_status_copy_failed")
   );
 }
 
 function downloadResult() {
   if (!els.result) return;
   const text = els.result.textContent.trim();
-  if (!text || text === "识别文本将在这里显示…") return;
+  if (!text || els.result.dataset.empty === "true") return;
   const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -903,7 +928,7 @@ if (els.download) {
   els.download.addEventListener("click", downloadResult);
 }
 
-setStatus("模型未加载");
+setStatus(t("status_model_unloaded", "模型未加载"), "status_model_unloaded");
 setResult("");
 setResultActions(false);
 setModelProgress(0);
