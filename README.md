@@ -2,6 +2,9 @@
 
 WebCore is a browser-first AI toolbox that bundles super-resolution (SR), text-to-speech (TTS), and offline ASR with on-device inference.
 
+Website demo: https://www.webcore.xin
+
+
 ## Features
 
 - SR with WebGPU-first execution and WASM fallback
