@@ -6,35 +6,35 @@
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <meta name="app-version" content="2026-01-13-1" />
-    <title data-i18n="title">webcore · 浏览器端侧 AI 工具集</title>
+    <meta name="app-version" content="2026-01-14-1" />
+    <title data-i18n="title">webcore · 离线浏览器端侧 AI 工具集</title>
     <meta
       name="description"
-      content="浏览器端侧 AI 工具集，涵盖图像放大、语音合成与语音识别，尽量在本地完成推理。"
+      content="离线浏览器端侧 AI 工具集，图像放大、语音合成与语音识别尽量在本地完成推理。"
       data-i18n-content="meta_description"
     />
     <meta
       name="keywords"
-      content="AI 工具集, 浏览器端侧 AI, 图像放大, 超分辨率, TTS, ASR, 语音合成, 语音识别"
+      content="离线 AI, 浏览器端侧, 图像放大, 超分辨率, TTS, ASR, 语音合成, 语音识别"
       data-i18n-content="meta_keywords"
     />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#2b6cff" />
+    <meta name="theme-color" content="#0ea5a4" />
     <link rel="canonical" href="https://www.webcore.xin/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="webcore" />
-    <meta property="og:title" content="webcore · 浏览器端侧 AI 工具集" data-i18n-content="title" />
+    <meta property="og:title" content="webcore · 离线浏览器端侧 AI 工具集" data-i18n-content="title" />
     <meta
       property="og:description"
-      content="浏览器端侧 AI 工具集，涵盖图像放大、语音合成与语音识别，尽量在本地完成推理。"
+      content="离线浏览器端侧 AI 工具集，图像放大、语音合成与语音识别尽量在本地完成推理。"
       data-i18n-content="meta_description"
     />
     <meta property="og:url" content="https://www.webcore.xin/" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="webcore · 浏览器端侧 AI 工具集" data-i18n-content="title" />
+    <meta name="twitter:title" content="webcore · 离线浏览器端侧 AI 工具集" data-i18n-content="title" />
     <meta
       name="twitter:description"
-      content="浏览器端侧 AI 工具集，涵盖图像放大、语音合成与语音识别，尽量在本地完成推理。"
+      content="离线浏览器端侧 AI 工具集，图像放大、语音合成与语音识别尽量在本地完成推理。"
       data-i18n-content="meta_description"
     />
     <script type="application/ld+json">
@@ -45,7 +45,7 @@
         "url": "https://www.webcore.xin/",
         "applicationCategory": "AIApplication",
         "operatingSystem": "Browser",
-        "description": "浏览器端侧 AI 工具集，涵盖图像放大、语音合成与语音识别，尽量在本地完成推理。",
+        "description": "离线浏览器端侧 AI 工具集，图像放大、语音合成与语音识别尽量在本地完成推理。",
         "inLanguage": "zh-CN"
       }
     </script>
@@ -63,6 +63,7 @@
   </head>
 
   <body>
+    <div class="bg-grid" aria-hidden="true"></div>
     <!-- Top Nav -->
     <header class="topbar">
       <div class="container topbar__inner">
@@ -92,13 +93,127 @@
     <!-- Hero -->
     <main class="hero">
       <div class="container hero__inner">
-        <h1 class="hero__title" data-i18n="hero_title">AI 工具集，一站式体验</h1>
-        <p class="hero__subtitle" data-i18n="hero_subtitle">
-          图像放大 · TTS · ASR · 一切尽量在浏览器端侧运行
-        </p>
+        <div class="hero__grid">
+          <div class="hero__copy">
+            <span class="hero__eyebrow" data-i18n="hero_kicker">离线浏览器端侧模型</span>
+            <h1 class="hero__title" data-i18n="hero_title">在浏览器里，完成端侧 AI 推理</h1>
+            <p class="hero__subtitle" data-i18n="hero_subtitle">
+              图像放大 · TTS · ASR，模型尽量本地运行，数据不必离开设备。
+            </p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#tools" data-i18n="hero_cta_primary">立即体验</a>
+              <a
+                class="btn btn--ghost"
+                href="https://github.com/Happenmass/WebCore"
+                data-i18n="hero_cta_secondary"
+              >
+                查看 GitHub
+              </a>
+            </div>
+            <div class="hero__stats">
+              <div class="stat">
+                <div class="stat__value">100%</div>
+                <div class="stat__label" data-i18n="hero_stat_local">离线推理</div>
+              </div>
+              <div class="stat">
+                <div class="stat__value">0</div>
+                <div class="stat__label" data-i18n="hero_stat_upload">上传依赖</div>
+              </div>
+              <div class="stat">
+                <div class="stat__value">WebGPU</div>
+                <div class="stat__label" data-i18n="hero_stat_accel">设备加速</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero__panel">
+            <div class="panel__header">
+              <div>
+                <div class="panel__kicker" data-i18n="panel_kicker">本地推理流程</div>
+                <div class="panel__title" data-i18n="panel_title">离线模型管线</div>
+              </div>
+              <div class="panel__status">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span data-i18n="panel_status">设备内运行</span>
+              </div>
+            </div>
+            <div class="panel__grid">
+              <div class="panel__item">
+                <span class="panel__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7z"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    />
+                    <path
+                      d="M8.5 11.5 11 14l4.5-4.5"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <div>
+                  <div class="panel__label" data-i18n="panel_step_1">媒体输入</div>
+                  <div class="panel__value" data-i18n="panel_step_1_desc">文件保留本地</div>
+                </div>
+              </div>
+              <div class="panel__item">
+                <span class="panel__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M6 9h12M6 13h12M6 17h6"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M5 4h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    />
+                  </svg>
+                </span>
+                <div>
+                  <div class="panel__label" data-i18n="panel_step_2">本地模型</div>
+                  <div class="panel__value" data-i18n="panel_step_2_desc">缓存 + 端侧推理</div>
+                </div>
+              </div>
+              <div class="panel__item">
+                <span class="panel__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M5 12h14M12 5l7 7-7 7"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <div>
+                  <div class="panel__label" data-i18n="panel_step_3">结果输出</div>
+                  <div class="panel__value" data-i18n="panel_step_3_desc">即时可视 + 下载</div>
+                </div>
+              </div>
+            </div>
+            <div class="panel__chips">
+              <span class="chip" data-i18n="panel_chip_1">WebGPU 加速</span>
+              <span class="chip" data-i18n="panel_chip_2">WASM 兜底</span>
+              <span class="chip" data-i18n="panel_chip_3">离线可用</span>
+            </div>
+          </div>
+        </div>
 
         <!-- Tabs (CSS only) -->
-        <section class="tabs" aria-label="webcore tools">
+        <section class="tabs" id="tools" aria-label="webcore tools">
           <!-- Radio controllers -->
           <input class="tabs__radio" type="radio" name="tab" id="tab-sr" checked />
           <input class="tabs__radio" type="radio" name="tab" id="tab-tts" />
@@ -107,17 +222,68 @@
           <!-- Tab headers -->
           <div class="tabs__header" role="tablist" aria-label="Tools">
             <label class="tabs__tab" for="tab-sr" role="tab" aria-controls="panel-sr">
-              <span class="tab__icon">🖼️</span>
+              <span class="tab__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                  />
+                  <path
+                    d="M8 14l2.5-3 2 2.5 3.5-4.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
               <span class="tab__text" data-i18n="tab_sr">图像放大</span>
             </label>
 
             <label class="tabs__tab" for="tab-tts" role="tab" aria-controls="panel-tts">
-              <span class="tab__icon">🔊</span>
+              <span class="tab__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M4 10v4a2 2 0 0 0 2 2h2l4 4V4L8 8H6a2 2 0 0 0-2 2z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M16 9a4 4 0 0 1 0 6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </span>
               <span class="tab__text" data-i18n="tab_tts">语音合成（TTS）</span>
             </label>
 
             <label class="tabs__tab" for="tab-asr" role="tab" aria-controls="panel-asr">
-              <span class="tab__icon">🎙️</span>
+              <span class="tab__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 3a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                  />
+                  <path
+                    d="M5 11a7 7 0 0 0 14 0M12 18v3"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </span>
               <span class="tab__text" data-i18n="tab_asr">语音识别（ASR）</span>
             </label>
           </div>
@@ -131,7 +297,32 @@
                   <!-- Upload -->
                   <div class="upload">
                     <div class="upload__box">
-                      <div class="upload__icon">⬆️</div>
+                      <div class="upload__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                          <path
+                            d="M12 16V6"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                          />
+                          <path
+                            d="M8 10l4-4 4 4"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                          />
+                        </svg>
+                      </div>
                       <div class="upload__title" data-i18n="upload_title">上传图片</div>
                       <div class="upload__desc" data-i18n="upload_desc">
                         拖拽到这里，或点击选择文件
@@ -202,28 +393,78 @@
 
               <div class="features">
                 <div class="feature">
-                  <div class="feature__icon">⚡</div>
+                  <div class="feature__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M13 3L4 14h6l-1 7 11-13h-6l1-5z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
                   <div class="feature__title" data-i18n="feature_fast">快速上手</div>
                   <div class="feature__desc" data-i18n="feature_fast_desc">
                     上传即用，低学习成本
                   </div>
                 </div>
                 <div class="feature">
-                  <div class="feature__icon">🧠</div>
+                  <div class="feature__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M9 3h6v4h4v6h-4v4H9v-4H5V7h4V3z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
                   <div class="feature__title" data-i18n="feature_edge">端侧推理</div>
                   <div class="feature__desc" data-i18n="feature_edge_desc">
                     尽量本地完成，减少依赖
                   </div>
                 </div>
                 <div class="feature">
-                  <div class="feature__icon">🔒</div>
+                  <div class="feature__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M6 10V7a6 6 0 0 1 12 0v3"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                      />
+                      <rect
+                        x="5"
+                        y="10"
+                        width="14"
+                        height="10"
+                        rx="2"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                      />
+                    </svg>
+                  </div>
                   <div class="feature__title" data-i18n="feature_privacy">数据隐私</div>
                   <div class="feature__desc" data-i18n="feature_privacy_desc">
                     可做到不上传媒体文件
                   </div>
                 </div>
                 <div class="feature">
-                  <div class="feature__icon">🧩</div>
+                  <div class="feature__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M4 12h4l2-4 4 8 2-4h4"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
                   <div class="feature__title" data-i18n="feature_expand">可扩展</div>
                   <div class="feature__desc" data-i18n="feature_expand_desc">
                     未来持续增加更多工具
@@ -281,14 +522,6 @@
                       <div class="panelbox__title" data-i18n="tts_output">音频输出</div>
                       <div class="panelbox__body">
                         <audio id="tts-audio" class="audio-player" controls></audio>
-                        <!-- <div class="audio-ph">
-                          <div class="audio-ph__bar"></div>
-                          <div class="audio-ph__bar"></div>
-                          <div class="audio-ph__bar"></div>
-                          <div class="audio-ph__bar"></div>
-                          <div class="audio-ph__bar"></div>
-                        </div> -->
-
                         <div class="row">
                           <button class="btn btn--primary" id="tts-play" data-i18n="tts_play" disabled>
                             播放
@@ -307,28 +540,9 @@
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
-
-              <!-- <div class="features features--mini">
-                <div class="feature">
-                  <div class="feature__icon">🗣️</div>
-                  <div class="feature__title">多说话人</div>
-                  <div class="feature__desc">统一用 Voice Profile 管理</div>
-                </div>
-                <div class="feature">
-                  <div class="feature__icon">📦</div>
-                  <div class="feature__title">离线包</div>
-                  <div class="feature__desc">模型可按需下载与缓存</div>
-                </div>
-                <div class="feature">
-                  <div class="feature__icon">🎛️</div>
-                  <div class="feature__title">可控参数</div>
-                  <div class="feature__desc">语速、音高、情感等</div>
-                </div>
-              </div> -->
             </section>
 
             <!-- Panel: ASR -->
@@ -337,7 +551,23 @@
                 <div class="card__grid card__grid--2">
                   <div class="stack">
                     <div class="upload__box upload__box--flat">
-                      <div class="upload__icon">🎙️</div>
+                      <div class="upload__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                          <path
+                            d="M12 3a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4z"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                          />
+                          <path
+                            d="M5 11a7 7 0 0 0 14 0M12 18v3"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                          />
+                        </svg>
+                      </div>
                       <div class="upload__title" data-i18n="asr_upload_title">
                         上传音频 / 录音
                       </div>
@@ -399,39 +629,9 @@
                         </div>
                       </div>
                     </div>
-
-                    <!-- <div class="panelbox panelbox--light">
-                      <div class="panelbox__title">时间轴（占位）</div>
-                      <div class="panelbox__body">
-                        <div class="timeline">
-                          <div class="seg"><span>00:00</span><em>…</em></div>
-                          <div class="seg"><span>00:05</span><em>…</em></div>
-                          <div class="seg"><span>00:10</span><em>…</em></div>
-                        </div>
-                        <div class="muted">后续可替换为 word-level timestamps。</div>
-                      </div>
-                    </div> -->
                   </div>
                 </div>
               </div>
-
-              <!-- <div class="features features--mini">
-                <div class="feature">
-                  <div class="feature__icon">📡</div>
-                  <div class="feature__title">流式</div>
-                  <div class="feature__desc">边说边出字，低延迟</div>
-                </div>
-                <div class="feature">
-                  <div class="feature__icon">🧾</div>
-                  <div class="feature__title">对齐</div>
-                  <div class="feature__desc">SRT/字幕导出更方便</div>
-                </div>
-                <div class="feature">
-                  <div class="feature__icon">🧪</div>
-                  <div class="feature__title">可测</div>
-                  <div class="feature__desc">统一性能面板与日志</div>
-                </div>
-              </div> -->
             </section>
           </div>
         </section>
@@ -456,13 +656,31 @@
       (() => {
         const MESSAGES = {
           zh: {
-            title: "webcore · 浏览器端侧 AI 工具集",
+            title: "webcore · 离线浏览器端侧 AI 工具集",
             meta_description:
-              "浏览器端侧 AI 工具集，涵盖图像放大、语音合成与语音识别，尽量在本地完成推理。",
+              "离线浏览器端侧 AI 工具集，图像放大、语音合成与语音识别尽量在本地完成推理。",
             meta_keywords:
-              "AI 工具集, 浏览器端侧 AI, 图像放大, 超分辨率, TTS, ASR, 语音合成, 语音识别",
-            hero_title: "AI 工具集，一站式体验",
-            hero_subtitle: "图像放大 · TTS · ASR · 一切尽量在浏览器端侧运行",
+              "离线 AI, 浏览器端侧, 图像放大, 超分辨率, TTS, ASR, 语音合成, 语音识别",
+            hero_kicker: "离线浏览器端侧模型",
+            hero_title: "在浏览器里，完成端侧 AI 推理",
+            hero_subtitle: "图像放大 · TTS · ASR，模型尽量本地运行，数据不必离开设备。",
+            hero_cta_primary: "立即体验",
+            hero_cta_secondary: "查看 GitHub",
+            hero_stat_local: "离线推理",
+            hero_stat_upload: "上传依赖",
+            hero_stat_accel: "设备加速",
+            panel_kicker: "本地推理流程",
+            panel_title: "离线模型管线",
+            panel_status: "设备内运行",
+            panel_step_1: "媒体输入",
+            panel_step_1_desc: "文件保留本地",
+            panel_step_2: "本地模型",
+            panel_step_2_desc: "缓存 + 端侧推理",
+            panel_step_3: "结果输出",
+            panel_step_3_desc: "即时可视 + 下载",
+            panel_chip_1: "WebGPU 加速",
+            panel_chip_2: "WASM 兜底",
+            panel_chip_3: "离线可用",
             tab_sr: "图像放大",
             tab_tts: "语音合成（TTS）",
             tab_asr: "语音识别（ASR）",
@@ -549,13 +767,32 @@
             asr_status_record_stopped: "录音已停止，解析中...",
           },
           en: {
-            title: "webcore · Browser-side AI Toolkit",
+            title: "webcore · Offline Browser-side AI Toolkit",
             meta_description:
-              "Browser-side AI toolkit featuring image upscaling, speech synthesis, and speech recognition with on-device inference.",
+              "Offline browser-side AI toolkit featuring image upscaling, speech synthesis, and speech recognition with on-device inference.",
             meta_keywords:
-              "AI toolkit, browser AI, image upscaling, super resolution, TTS, ASR, speech synthesis, speech recognition",
-            hero_title: "AI toolkit, all-in-one experience",
-            hero_subtitle: "Image upscaling · TTS · ASR · Everything runs on-device in the browser",
+              "offline AI, browser AI, image upscaling, super resolution, TTS, ASR, speech synthesis, speech recognition",
+            hero_kicker: "Offline on-device models",
+            hero_title: "Run AI inference right in the browser",
+            hero_subtitle:
+              "Image upscaling · TTS · ASR. Models run locally so your data stays on-device.",
+            hero_cta_primary: "Try it now",
+            hero_cta_secondary: "View on GitHub",
+            hero_stat_local: "Offline inference",
+            hero_stat_upload: "Uploads required",
+            hero_stat_accel: "Device acceleration",
+            panel_kicker: "Local pipeline",
+            panel_title: "Offline model flow",
+            panel_status: "Runs on-device",
+            panel_step_1: "Media input",
+            panel_step_1_desc: "Files stay local",
+            panel_step_2: "Local models",
+            panel_step_2_desc: "Cache + on-device inference",
+            panel_step_3: "Result output",
+            panel_step_3_desc: "Instant preview + download",
+            panel_chip_1: "WebGPU acceleration",
+            panel_chip_2: "WASM fallback",
+            panel_chip_3: "Works offline",
             tab_sr: "Image Upscale",
             tab_tts: "Speech Synthesis (TTS)",
             tab_asr: "Speech Recognition (ASR)",
